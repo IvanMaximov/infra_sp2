@@ -1,23 +1,11 @@
 from django.contrib import admin
 
-from .models import User, Category, Genre, Title
-
-
-class TitleAdmin(admin.ModelAdmin):
-    list_display = (
-        'name',
-        'year',
-        'description',
-        'category',
-    )
-
-    list_editable = ('category',)
-    search_fields = ('name',)
-    list_filter = ('year',)
-    empty_value_display = '-пусто-'
+from .models import Category, Comment, Genre, Review, Title, User
 
 
 admin.site.register(User)
 admin.site.register(Category)
 admin.site.register(Genre)
-admin.site.register(Title, TitleAdmin)
+admin.site.register(Title)
+admin.site.register(Review)
+admin.site.register(Comment)

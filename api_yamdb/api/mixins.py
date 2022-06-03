@@ -1,13 +1,8 @@
-from rest_framework.mixins import (CreateModelMixin, DestroyModelMixin,
-                                   ListModelMixin)
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.viewsets import GenericViewSet
-from rest_framework import filters
+from rest_framework import viewsets, mixins
 
 
-class CreateListDestroyViewSet(ListModelMixin,
-                               CreateModelMixin,
-                               DestroyModelMixin,
-                               GenericViewSet):
-    pagination_class = PageNumberPagination
-    filter_backends = [filters.SearchFilter]
+class ListCreateDestroyViewSet(viewsets.GenericViewSet,
+                               mixins.CreateModelMixin,
+                               mixins.ListModelMixin,
+                               mixins.DestroyModelMixin):
+    pass

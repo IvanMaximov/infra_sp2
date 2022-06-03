@@ -1,25 +1,28 @@
 from django.urls import include, path
-from rest_framework.routers import DefaultRouter
 
-from .views import (CategoryViewSet, CommentsViewSet, GenreViewSet,
-                    ReviewsViewSet, TitlesViewSet, UserViewSet,
-                    get_confirmation_code, get_jwt_token)
+from rest_framework.routers import SimpleRouter
+
+from .views import (TitleViewSet, CategoryViewSet, GenreViewSet,
+                    RegisterNewUserAPIView, CustomJWTTokenView, UserViewSet,
+                    ReviewViewSet, CommentViewSet)
+
 
 app_name = 'api'
 
-rout = r'titles/(?P<title_id>\d+)/reviews/(?P<review_id>\d+)/comments'
-
-router = DefaultRouter()
-router.register('users', UserViewSet)
-router.register('titles', TitlesViewSet, basename='Title')
-router.register('genres', GenreViewSet, basename='Genre')
-router.register('categories', CategoryViewSet, basename='Category')
+router = SimpleRouter()
+router.register(r'titles', TitleViewSet)
+router.register(r'categories', CategoryViewSet)
+router.register(r'genres', GenreViewSet)
+router.register(r'users', UserViewSet)
 router.register(r'titles/(?P<title_id>\d+)/reviews',
-                ReviewsViewSet, basename='Title')
-router.register(rout, CommentsViewSet, basename='Comment')
+                ReviewViewSet, basename='reviews')
+router.register(r'titles/(?P<title_id>\d+)/reviews/(?P<review_id>\d+)'
+                r'/comments', CommentViewSet, basename='comments')
+router.register('titles', TitleViewSet, basename='titles')
+
 
 urlpatterns = [
-    path('v1/', include(router.urls), name='api_v1'),
-    path('v1/auth/signup/', get_confirmation_code, name='signup'),
-    path('v1/auth/token/', get_jwt_token, name='token')
+    path('v1/', include(router.urls)),
+    path('v1/auth/signup/', RegisterNewUserAPIView.as_view()),
+    path('v1/auth/token/', CustomJWTTokenView.as_view()),
 ]
