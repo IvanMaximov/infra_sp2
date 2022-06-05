@@ -4,9 +4,10 @@ services:
   db:
     image: postgres:13.0-alpine
     volumes:
-      - /var/lib/postgresql/data/
+      - db_value:/var/lib/postgresql/data/
     env_file:
       - ./.env
+    restart: always
   web:
     build: ../api_yamdb/
     restart: always
@@ -31,6 +32,8 @@ services:
 
     depends_on:
       - web
+
+    restart: always
 
 volumes:
   static_value:
